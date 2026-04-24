@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 // enableCORS is a middleware to allow React to talk to this API
@@ -23,6 +24,15 @@ func enableCORS(next http.HandlerFunc) http.HandlerFunc {
 func main() {
 	initDB() // This is defined in database.go
 	defer db.Close()
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Expense Tracker API is running!")
+	})
 
 	http.HandleFunc("/expenses", enableCORS(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "GET" {
