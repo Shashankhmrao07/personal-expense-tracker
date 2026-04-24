@@ -18,7 +18,7 @@ interface CreateExpensePayload {
 }
 
 // --- 2. API FUNCTIONS (The Pipes) ---
-const API_URL = 'http://localhost:8080';
+const API_URL = import.meta.env.VITE_API_URL ||'http://localhost:8080';
 
 async function fetchExpensesApi(category?: string, sort?: boolean): Promise<Expense[]> {
   const params = new URLSearchParams();
